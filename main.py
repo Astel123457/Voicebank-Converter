@@ -17,6 +17,15 @@ def main(path, mode):
             i = i.replace(".わv", ".wav")
             i = i.replace("わv.frq", "_wav.frq")
             i = i.replace("わv.llsm", "wav.llsm")
+            i = i.replace(".あいf", ".aif")
+            i = i.replace("あいf.frq", "_aif.frq")
+            i = i.replace("あいf.llsm", "aif.llsm")
+            i = i.replace(".あいff", ".aiff")
+            i = i.replace("あいff.frq", "_aiff.frq")
+            i = i.replace("あいff.llsm", "aiff.llsm")
+            i = i.replace(".あいfc", ".aifc")
+            i = i.replace("あいfc.frq", "_aifc.frq")
+            i = i.replace("あいfc.llsm", "aifc.llsm")
             i = "_" + i
             i = i.replace("_でsc.mrq", "desc.mrq")
             i = i.replace("_おと.いに", "oto.ini")
@@ -32,24 +41,6 @@ def main(path, mode):
         else:
             print("No valid conversion mode specified!")
     print("Done")
-
-    # f = open(path, "r")
-    # strings = f.read()
-    # if mode == "hiragana":
-    #     strings = strings.lower()
-    #     for key in main_converter.hir_dict.keys():
-    #         strings = strings.replace(key, main_converter.hir_dict[key])
-    #     strings = strings.replace("-", "")
-    #     strings = strings.replace("_", "")
-    #     print(strings)
-    # elif mode == "romaji":
-    #     for key in main_converter.rom_dict.keys():
-    #         strings = strings.replace(key, "-" + main_converter.rom_dict[key])
-    #     if string.startswith("_-"):
-    #         string.replace("_-", "_")
-    #     print(strings)
-
-
 
 if __name__ == "__main__":
     path = sys.argv[1]
