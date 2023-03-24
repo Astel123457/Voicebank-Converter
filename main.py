@@ -1,13 +1,19 @@
-import sys
 import os
 import shutil
 import main_converter
+import argparse
+
 
 def main(path, mode):
+    bankname = path.split("\\")[-1]  # Get the name of the voicebank folder to use as the name of the new folder
     paths = os.listdir(path)
     print(f"Scanning {path}")
-    mode = mode.lower()   
-    print("Converting...") 
+    mode = mode.lower()
+    print("Converting...")
+    try:
+        os.mkdir(f".\\{bankname}_{mode}")  # Create a new folder for the converted files if it does not exist
+    except FileExistsError:
+        pass  # If it does exist, this is okay
     for i in paths:
         old = i
         if mode == "hiragana":
@@ -29,7 +35,7 @@ def main(path, mode):
             i = "_" + i
             i = i.replace("_でsc.mrq", "desc.mrq")
             i = i.replace("_おと.いに", "oto.ini")
-            shutil.copy(path + "\\" + old, ".\\output\\" + i)
+            shutil.copy(path + "\\" + old, f".\\{bankname}_{mode}\\" + i)
         elif mode == "romaji":
             for key in main_converter.rom_dict.keys():
                 i = i.replace(key, "-" + main_converter.rom_dict[key])
@@ -37,15 +43,33 @@ def main(path, mode):
                 i = i.replace("_-", "_")
             if i.startswith("-"):
                 i = i[1:]
-            shutil.copy(path + "\\" + old, ".\\output\\" + i)
+            shutil.copy(path + "\\" + old, f".\\{bankname}_{mode}\\" + i)
         else:
             print("No valid conversion mode specified!")
     print("Done")
 
+
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        print("ERROR: Please input path and conversion mode.")
-    else:
-        path = sys.argv[1]
-        mode = sys.argv[2]
-        main(path, mode)
+    parser = argparse.ArgumentParser(
+        prog="Voicebank-Converter",
+        description="Converts UTAU voicebank sample filenames from Hiragana to Romaji, or vice versa."
+    )
+
+    parser.add_argument(
+        "path",
+        help="Path to the voicebank folder.",
+        nargs="+",
+        type=str
+    )
+
+    parser.add_argument(
+        "mode",
+        help="Conversion mode. Either 'hiragana' or 'romaji'.",
+        nargs=1,
+        type=str,
+        choices=["hiragana", "romaji"]
+    )
+
+    args = parser.parse_args()
+    for i in args.path:
+        main(i, args.mode[0])
