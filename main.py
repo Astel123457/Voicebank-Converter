@@ -35,7 +35,14 @@ def main(path, mode):
             i = "_" + i
             i = i.replace("_でsc.mrq", "desc.mrq")
             i = i.replace("_おと.いに", "oto.ini")
-            shutil.copy(path + "\\" + old, f".\\{bankname}_{mode}\\" + i)
+            try:
+                shutil.copy(path + "\\" + old, f".\\{bankname}_{mode}\\" + i)
+            except FileNotFoundError:
+                print(f"File not found? Skipping {old}")
+            except PermissionError:
+                print(f"Permission error. Skipping {old}")
+            except:
+                print(f"Unknown error. Skipping {old}")
         elif mode == "romaji":
             for key in main_converter.rom_dict.keys():
                 i = i.replace(key, "-" + main_converter.rom_dict[key])
@@ -43,10 +50,17 @@ def main(path, mode):
                 i = i.replace("_-", "_")
             if i.startswith("-"):
                 i = i[1:]
-            shutil.copy(path + "\\" + old, f".\\{bankname}_{mode}\\" + i)
+            try:
+                shutil.copy(path + "\\" + old, f".\\{bankname}_{mode}\\" + i)
+            except FileNotFoundError:
+                print(f"File not found? Skipping {old}")
+            except PermissionError:
+                print(f"Permission error. Skipping {old}")
+            except:
+                print(f"Unknown error. Skipping {old}")
         else:
             print("No valid conversion mode specified!")
-    print("Done")
+    print(f"Converted bankname. {mode.title()} files are in \"{bankname}_{mode}\".")
 
 
 if __name__ == "__main__":
