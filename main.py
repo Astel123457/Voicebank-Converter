@@ -60,7 +60,7 @@ def main(path, mode):
                 print(f"Unknown error. Skipping {old}")
         else:
             print("No valid conversion mode specified!")
-    print(f"Converted bankname. {mode.title()} files are in \"{bankname}_{mode}\".")
+    print(f"Converted {bankname}. {mode.title()} files are in \"{bankname}_{mode}\".")
 
 
 if __name__ == "__main__":
