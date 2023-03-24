@@ -43,6 +43,9 @@ def main(path, mode):
     print("Done")
 
 if __name__ == "__main__":
-    path = sys.argv[1]
-    mode = sys.argv[2]
-    main(path, mode)
+    if len(sys.argv) < 3:
+        print("ERROR: Please input path and conversion mode.")
+    else:
+        path = sys.argv[1]
+        mode = sys.argv[2]
+        main(path, mode)
