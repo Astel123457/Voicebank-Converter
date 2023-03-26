@@ -4,6 +4,7 @@ import main_converter
 import argparse
 
 AUDIO = ["wav", "flac", "aif", "aiff", "aifc", "mp3"]
+FRQ = ["frq", "llsm", "dio", "ctspec"]
 
 
 def main(path, mode):
@@ -20,8 +21,8 @@ def main(path, mode):
         try:
             old = i
             ext = i.split(".")[-1]
-            if ext not in AUDIO:
-                pass  # don't convert if not an audio file
+            if ext not in AUDIO and ext not in FRQ:
+                pass  # don't convert if not an audio file or a frq file
             elif mode == "hiragana":
                 for key in main_converter.hir_dict.keys():
                     i = i.replace(key, main_converter.hir_dict[key])
