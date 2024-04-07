@@ -21,8 +21,28 @@ def main(path, mode):
         try:
             old = i
             ext = i.split(".")[-1]
+            oto = [] # this is incase there is an oto
+            if old == "oto.ini":
+                with open(old, 'r') as f:
+                    lines = f.readlines()
+                    for line in lines:
+                        wav, data = line.split("=")
+                        if mode == "hiragana":
+                            for key in main_converter.hir_dict.keys():
+                                wav = wav.replace(key, main_converter.hir_dict[key])
+                            wav = wav.replace(".わv", ".wav")
+                        elif mode == "romaji":
+                            for key in main_converter.rom_dict.keys():
+                                wav = wav.replace(key, "-" + main_converter.rom_dict[key])
+
+                            if wav.startswith("_-"):
+                                wav = wav.replace("_-", "_")
+
+                            if i.startswith("-"):
+                                wav = wav[1:]
+                        oto.append(f"{wav}={data}")
             if ext not in AUDIO and ext not in FRQ:
-                pass  # don't convert if not an audio file or a frq file
+                pass  # don't convert if not an audio file, frq file, or ini file
             elif mode == "hiragana":
                 for key in main_converter.hir_dict.keys():
                     i = i.replace(key, main_converter.hir_dict[key])
@@ -56,6 +76,9 @@ def main(path, mode):
                 print("No valid conversion mode specified!")
 
             # finally, copy the file to the new folder
+            if len(oto) > 0:
+                with open(f".\\{bankname}_{mode}\\" + "oto.ini", "w") as f:
+                    f.writelines(oto)
             shutil.copy(path + "\\" + old, f".\\{bankname}_{mode}\\" + i)
         except FileNotFoundError:
             print(f"File not found? Skipping {old}")
