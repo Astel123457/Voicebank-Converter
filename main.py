@@ -4,7 +4,7 @@ import main_converter
 import argparse
 
 AUDIO = ["wav", "flac", "aif", "aiff", "aifc", "mp3"]
-FRQ = ["frq", "llsm", "dio", "ctspec"]
+FRQ = ["frq", "llsm", "dio", "ctspec", "sc.npz", "sc"]
 
 
 def main(path, mode):
